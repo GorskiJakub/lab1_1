@@ -16,7 +16,6 @@
 package pl.com.bottega.ecommerce.sales.domain.offer;
 
 import java.math.BigDecimal;
-import java.util.Date;
 
 public class OfferItem {
 
@@ -24,9 +23,7 @@ public class OfferItem {
 	
 	private int quantity;
 
-	private BigDecimal totalCost;
-
-	private String currency;
+	private TotalCost totalCost;
 
 	private Discount discount;
 	
@@ -41,12 +38,12 @@ public class OfferItem {
 		this.quantity = quantity;
 		this.discount = discount;
 
-		BigDecimal discountValue = new BigDecimal(0);
+		TotalCost discountValue = new TotalCost(new BigDecimal(0));
 		if (discount != null)
-			discountValue = discountValue.subtract(discount.getAmount());
+			discountValue = discountValue.subtract(discount.getMoney());
 
 		this.totalCost = product.getProductPrice()
-				.multiply(new BigDecimal(quantity)).subtract(discountValue);
+				.multiply(new TotalCost(new BigDecimal(quantity))).subtract(discountValue);
 	}
 
 
@@ -112,7 +109,7 @@ public class OfferItem {
 		if (quantity != other.quantity)
 			return false;
 
-		BigDecimal max, min;
+		TotalCost max, min;
 		if (totalCost.compareTo(other.totalCost) > 0) {
 			max = totalCost;
 			min = other.totalCost;
@@ -121,8 +118,8 @@ public class OfferItem {
 			min = totalCost;
 		}
 
-		BigDecimal difference = max.subtract(min);
-		BigDecimal acceptableDelta = max.multiply(new BigDecimal(delta / 100));
+		TotalCost difference = max.subtract(min);
+		TotalCost acceptableDelta = max.multiply(new TotalCost(new BigDecimal(delta / 100)));
 
 		return acceptableDelta.compareTo(difference) > 0;
 		}

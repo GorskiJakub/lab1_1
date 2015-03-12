@@ -1,29 +1,25 @@
 package pl.com.bottega.ecommerce.sales.domain.offer;
 
-import java.math.BigDecimal;
 
 public class Discount {
+	
 	private String cause;
-
-	private BigDecimal amount;
 	
-	private String currency;
+	private TotalCost money;
 	
-	public BigDecimal getAmount() {
-		return amount;
+	public TotalCost getMoney() {
+		return money;
 	}
 
-	public void setAmount(BigDecimal amount) {
-		this.amount = amount;
+	public void setMoney(TotalCost money) {
+		this.money = money;
 	}
 	
 	public boolean equals(Object obj) {
 		Discount other = (Discount)obj;
-		if(other.amount != amount)
+		if(other.money != money)
 			return false;
 		if(other.cause != cause)
-			return false;
-		if(other.currency != currency)
 			return false;
 		return true;
 	}
